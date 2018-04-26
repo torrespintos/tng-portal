@@ -123,44 +123,76 @@ export class ServiceManagementService {
     });
   }
 
-  instantiate(service: Object, ingress: Array<Object>, egress: Array<Object>) {
-    console.log(ingress);
-    console.log(egress);
-    // Send request to instantiate with data
-    // Show pop up saying success/error with id xxxxx
+  postVims(): any {
+    return new Promise((resolve, reject) => {
+      let headers = this.authService.getAuthHeaders();
+
+      let data = {
+        compute_configuration: {
+          tenant_id: "name",
+          vim_address: "ip_address",
+          tenant_ext_router: "uuid",
+          tenant_ext_net: "uuid",
+          username: "username",
+          pass: "password"
+        },
+        networking_configuration: {
+          username: "username",
+          pass: "password",
+          vim_address: "ip_address"
+        },
+        wim_id: "name",
+        country: "country",
+        city: "city",
+        name: "nombre"
+      };
+
+      this.http
+        .post(this.config.ROUTES.BASE + this.config.ROUTES.VIMS, data, {
+          headers: headers
+        })
+        .subscribe(
+          response => {
+            resolve(response);
+          },
+          (error: HttpErrorResponse) => {
+            reject(error.statusText);
+          }
+        );
+    });
   }
 
-  // instantiate() {
-  //   return new Promise((resolve, reject) => {
-  //     let uuid = "f146d1fe-3049-47fc-a0cb-7d7b777a4989";
-  //     let data = {
-  //       nsd_id: "f146d1fe-3049-47fc-a0cb-7d7b777a4989",
-  //       latest_nsd_id: "nsr-schema-01"
-  //     };
+  getVims(uuid): any {
+    return new Promise((resolve, reject) => {
+      let headers = this.authService.getAuthHeaders();
 
-  //     let headers = this.authService.getAuthHeaders();
-  //     this.http
-  //       .put(
-  //         this.config.ROUTES.BASE + this.config.ROUTES.INSTANCES + uuid,
-  //         data,
-  //         {
-  //           headers: headers
-  //         }
-  //       )
-  //       .subscribe(
-  //         response => {
-  //           if (response[0].hasOwnProperty("uuid")) {
-  //             resolve(response);
-  //           }
-  //           reject("No requests returned");
-  //         },
-  //         (error: HttpErrorResponse) => {
-  //           if (error.status === 404) {
-  //             resolve([]);
-  //           }
-  //           reject(error.statusText);
-  //         }
-  //       );
-  //   });
-  // }
+      this.http
+        .get(this.config.ROUTES.BASE + this.config.ROUTES.VIMS + uuid, {
+          headers: headers
+        })
+        .subscribe(
+          response => {
+            // TODO RETURN AN ARRAY OF LOCATIONS
+            resolve(response);
+          },
+          (error: HttpErrorResponse) => {
+            reject(error.statusText);
+          }
+        );
+    });
+  }
+
+  instantiate(
+    service: Object,
+    ingress: Array<Object>,
+    egress: Array<Object>,
+    sla: String
+  ) {
+    console.log(ingress);
+    console.log(egress);
+    console.log(sla);
+    // Send request to instantiate with data
+    // Wait for the response / check the status of instantiation
+    // Show toast saying success/error with id xxxxx
+  }
 }

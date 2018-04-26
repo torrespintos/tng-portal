@@ -123,6 +123,7 @@ app-instantiate-dialog {
         border: none;
         cursor: pointer;
         outline: none;
+        text-align: end;
         color: rgb(201, 0, 16);
         background-color: rgb(254, 254, 254);
         i:before {
@@ -136,23 +137,31 @@ app-instantiate-dialog {
     display: flex;
     justify-content: flex-end;
     button {
+      width: 50%;
       margin: 20px 0 25px;
-      padding: 8px 60px;
+      padding: 8px 40px;
       font-size: 18px;
       font-weight: bold;
       border: none;
       cursor: pointer;
       outline: none;
       &.cancel {
-        margin-right: 15px;
+        margin-right: 10px;
         color: rgb(254, 254, 254);
         background-color: rgb(189, 185, 185);
       }
       &.save {
-        margin-left: 15px;
+        margin-left: 10px;
         color: rgb(254, 254, 254);
         background-color: rgb(121, 20, 34);
       }
     }
+  }
+  .error {
+    font-size: 16px;
+    margin-top: -15px;
+    color: rgb(201, 0, 16);
+    text-align: right;
+    width: 60%;
   }
 }

@@ -49,10 +49,21 @@
     </div>
   </form>
 
+  <form #slaForm="ngForm" class="form">
+    <mat-form-field>
+      <mat-select placeholder="SLA" name="sla" (change)="setSLA(selectedSLA)" [(ngModel)]="selectedSLA" required>
+        <mat-option *ngFor="let sla of slas" [value]="sla">
+          {{ sla }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <p class="error" *ngIf="!slaForm.valid && slaForm.touched">*Please, select a SLA</p>
+  </form>
+
 </mat-dialog-content>
 <mat-dialog-actions>
   <div class="buttonContainer">
     <button class="cancel" mat-button mat-dialog-close>CANCEL</button>
-    <button class="save" mat-button cdkFocusInitial [mat-dialog-close]="false" (click)="instantiate(data.service)">SAVE</button>
+    <button class="save" mat-button cdkFocusInitial [mat-dialog-close]="false" [disabled]="!slaForm.valid" (click)="instantiate(data.service)">INSTANTIATE</button>
   </div>
 </mat-dialog-actions>
